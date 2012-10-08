@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.platform</groupId>
+    <artifactId>xwiki-platform-realtime</artifactId>
+    <version>4.3-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>xwiki-platform-realtime-editor</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>XWiki Platform - Realtime - Editor - Parent POM</name>
+  <description>Real time collaborative plain wiki syntax editor.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit-dep</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+  <modules>
+    <module>xwiki-platform-realtime-editor-client</module>
+    <module>xwiki-platform-realtime-editor-server</module>
+    <module>xwiki-platform-realtime-editor-ui</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>google-maven-releases-repository</id>
+      <name>Google Maven Releases Repository</name>
+      <url>https://nexus.codehaus.org/content/repositories/releases</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gwt-maven-plugin-repository</id>
+      <url>https://nexus.codehaus.org/content/repositories/releases</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+</project>
