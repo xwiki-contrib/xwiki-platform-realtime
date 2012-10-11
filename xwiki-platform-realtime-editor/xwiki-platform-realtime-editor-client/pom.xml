@@ -95,6 +95,12 @@
                             <include>**/*.java </include>
                       </includes>
                   </resource>
+                  <resource>
+                      <directory>${gwt.output.directory}</directory>
+                       <includes>
+                            <include>**/*</include>
+                      </includes>
+                  </resource>
               </resources>
           </configuration>
           <executions>

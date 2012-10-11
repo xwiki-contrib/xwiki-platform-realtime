@@ -44,7 +44,7 @@ public abstract class JupiterAlg {
     // If 2 operations are simultaneously received by the server, it will sequentially apply them in an ascending order
     protected int siteId;
 
-    protected int editingSessionId = -1;
+    protected long editingSessionId = -1L;
 
     protected State currentState = new State();
 
@@ -185,11 +185,11 @@ public abstract class JupiterAlg {
         return getClass().getName() + "@" + siteId + "#" + document + ", " + currentState + "#";
     }
 
-    public void setEditingSessionId(int editingSessionId) {
+    public void setEditingSessionId(long editingSessionId) {
         this.editingSessionId = editingSessionId;
     }
 
-    public int getEditingSessionId() {
+    public long getEditingSessionId() {
         return editingSessionId;
     }
 }

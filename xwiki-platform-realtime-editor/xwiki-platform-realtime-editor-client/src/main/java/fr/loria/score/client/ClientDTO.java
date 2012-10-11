@@ -30,19 +30,19 @@ import java.io.Serializable;
  */
 public class ClientDTO implements Serializable {
     private int siteId;
-    private int esid;
+    private long esid;
     private Document document;
 
     public ClientDTO() {
     }
 
-    public ClientDTO(Document document, int siteId, int esid) {
+    public ClientDTO(Document document, int siteId, long esid) {
         this.siteId = siteId;
         this.esid = esid;
         this.document = document;
     }
 
-    public ClientDTO(String content, int siteId, int esid) {
+    public ClientDTO(String content, int siteId, long esid) {
         this(new PlainDocument(content), siteId, esid);
     }
 
@@ -61,11 +61,11 @@ public class ClientDTO implements Serializable {
         return this;
     }
 
-    public int getEditingSessionId() {
+    public long getEditingSessionId() {
         return esid;
     }
 
-    public ClientDTO setEditingSessionId(int esid) {
+    public ClientDTO setEditingSessionId(long esid) {
         this.esid = esid;
         return this;
     }

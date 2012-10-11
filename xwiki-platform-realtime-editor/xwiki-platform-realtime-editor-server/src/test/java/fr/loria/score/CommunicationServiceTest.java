@@ -55,7 +55,7 @@ public class CommunicationServiceTest {
 
     @Before
     public void setUp() {
-        Map<Integer, List<Integer>> editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
+        Map<Long, List<Integer>> editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
         assertEquals("Invalid initial size for editing sessions", 0, editingSessions.size());
         Map<Integer, ServerJupiterAlg> correspondents = ClientServerCorrespondents.getInstance().getCorrespondents();
         assertEquals("Invalid initial size for client-server correspondents sessions", 0, correspondents.size());
@@ -122,7 +122,7 @@ public class CommunicationServiceTest {
     @Test
     public void createServerPairForClient() {
         int siteId = 1;
-        int sessionId = 47;
+        long sessionId = 47;
 
         ClientJupiterAlg client = new ClientJupiterAlg(new PlainDocument("foo"));
         client.setSiteId(siteId);
@@ -137,7 +137,7 @@ public class CommunicationServiceTest {
         assertEquals("Invalid data for server correspondent", "foo", correspondents.get(siteId).getDocument().getContent());
         assertEquals("Invalid siteId for server correspondent", siteId, correspondents.get(siteId).getSiteId());
 
-        Map<Integer, List<Integer>> sessions = ClientServerCorrespondents.getInstance().getEditingSessions();
+        Map<Long, List<Integer>> sessions = ClientServerCorrespondents.getInstance().getEditingSessions();
         assertNotNull(sessions);
         assertEquals("Invalid editing session size", 1, sessions.size());
         assertEquals("Invalid siteId for sessionId:" + sessionId, (Object) siteId, sessions.get(sessionId).get(0));
@@ -162,22 +162,22 @@ public class CommunicationServiceTest {
             assertEquals("Invalid server data", "", server.getDocument().getContent());
         }
 
-        Map<Integer, List<Integer>> sessions = ClientServerCorrespondents.getInstance().getEditingSessions();
+        Map<Long, List<Integer>> sessions = ClientServerCorrespondents.getInstance().getEditingSessions();
         assertEquals(NR_CLIENTS, sessions.get(0).size());
     }
 
     @Test
     public void removeServerPairForClient() {
-        Map<Integer, List<Integer>> editingSessions;
+        Map<Long, List<Integer>> editingSessions;
         Map<Integer, ServerJupiterAlg> correspondents;
 
         //add it
         int siteId = 10;
-        int sessionId = 47;
+        long sessionId = 47;
         ClientDTO client = new ClientDTO("", siteId, sessionId);
         communicationService.createServerPairForClient(client);
 
-		editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
+        editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
         assertEquals("Invalid editing session size", 1, editingSessions.size());
         assertTrue("Invalid editing session id", editingSessions.containsKey(sessionId));
         assertEquals("Site id mapped for editing session:", 1, editingSessions.get(sessionId).size());
@@ -198,7 +198,7 @@ public class CommunicationServiceTest {
 
     @Test
     public void removeServerPairsForClientsInDifferentSessions() {
-        int esid1 = 500;
+        long esid1 = 500;
         ClientDTO client511 = new ClientDTO("", 11, esid1);
         ClientDTO client513 = new ClientDTO("", 13, esid1);
 
@@ -206,7 +206,7 @@ public class CommunicationServiceTest {
         communicationService.createServerPairForClient(client513);
 
 
-        int esid2 = 700;
+        long esid2 = 700;
         ClientDTO client709 = new ClientDTO("", 9, esid2);
         ClientDTO client725 = new ClientDTO("", 25, esid2);
         ClientDTO client759 = new ClientDTO("", 59, esid2);
@@ -347,12 +347,12 @@ public class CommunicationServiceTest {
 
     @Test
     public void initClients() {
-        Map<Integer, List<Integer>> editingSessions;
+        Map<Long, List<Integer>> editingSessions;
         Map<Integer, ServerJupiterAlg> correspondents;
 
         //add it
         int siteId = 0;
-        int sessionId = -1874759369;
+        long sessionId = -1874759369;
         ClientDTO client = new ClientDTO("foo", siteId, sessionId);
         ClientDTO client1 = new ClientDTO("", siteId + 1, sessionId);
 
@@ -360,7 +360,7 @@ public class CommunicationServiceTest {
         client1 = communicationService.initClient(client1);
         assertEquals("foo",client1.getDocument().getContent());
 
-		editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
+        editingSessions = ClientServerCorrespondents.getInstance().getEditingSessions();
         assertEquals("Invalid editing session size", 1, editingSessions.size());
         assertTrue("Invalid editing session id", editingSessions.containsKey(sessionId));
         assertEquals("Site id mapped for editing session:", 2, editingSessions.get(sessionId).size());

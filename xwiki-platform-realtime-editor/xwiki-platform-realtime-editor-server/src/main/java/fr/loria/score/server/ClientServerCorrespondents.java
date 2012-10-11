@@ -35,7 +35,7 @@ public final class ClientServerCorrespondents {
     private final Map<Integer, ServerJupiterAlg> correspondents = new HashMap<Integer, ServerJupiterAlg>();
 
     //the mapping between the editing session id and the list of ids of the clients that share the same editing session
-    private final Map<Integer, List<Integer>> editingSessions = new HashMap<Integer, List<Integer>>();
+    private final Map<Long, List<Integer>> editingSessions = new HashMap<Long, List<Integer>>();
 
     private static ClientServerCorrespondents instance = new ClientServerCorrespondents();
     
@@ -56,7 +56,7 @@ public final class ClientServerCorrespondents {
      */
     public Document addServerForClient(ClientDTO clientDTO) {
         //Based on it's editing session id the client's id is added to the sessions map
-        int editingSessionId = clientDTO.getEditingSessionId();
+        long editingSessionId = clientDTO.getEditingSessionId();
         synchronized (editingSessions) {
             if (!editingSessions.containsKey(editingSessionId)) {
                 editingSessions.put(editingSessionId, new ArrayList<Integer>());
@@ -88,7 +88,7 @@ public final class ClientServerCorrespondents {
     }
 
     public void removeServerForClient(ClientDTO clientDTO) {
-        int editingSessionId = clientDTO.getEditingSessionId();
+        long editingSessionId = clientDTO.getEditingSessionId();
         int siteId = clientDTO.getSiteId();
          //1. remove it from the editing session id
         if (editingSessions.containsKey(editingSessionId)) {
@@ -115,13 +115,13 @@ public final class ClientServerCorrespondents {
 
     public void serverReceive(Message msg) {
         // now the corresponding server receives the message and atomically notifies peer servers which send their updates to their clients
-        int esid = msg.getEditingSessionId();
-        if (editingSessions.containsKey(esid)) {
+        long editingSessionId = msg.getEditingSessionId();
+        if (editingSessions.containsKey(editingSessionId)) {
             int siteId = msg.getSiteId();
             ServerJupiterAlg serverJupiter = ClientServerCorrespondents.getInstance().getCorrespondents().get(siteId);
             // overkill for performance, but that's a Jupiter constraint to serialize receive operations
             //sync on a per editing session lock
-            synchronized (editingSessions.get(esid)) {
+            synchronized (editingSessions.get(editingSessionId)) {
                 serverJupiter.receive(msg);
             }
         }
@@ -149,7 +149,7 @@ public final class ClientServerCorrespondents {
     /**
      * @return the mapping between editing sessions and the participants
      */
-    public Map<Integer, List<Integer>> getEditingSessions() {
+    public Map<Long, List<Integer>> getEditingSessions() {
         return editingSessions;
     }
 }

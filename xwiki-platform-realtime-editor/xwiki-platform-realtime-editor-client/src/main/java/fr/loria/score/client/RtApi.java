@@ -93,7 +93,7 @@ public class RtApi {
 
             clientJupiter.setCommunicationService(comService);
             clientJupiter.setDocument(new PlainDocument(tArea.getText()));
-            clientJupiter.setEditingSessionId(Integer.valueOf(config.getParameter(DOCUMENT_ID)));
+            clientJupiter.setEditingSessionId(Long.valueOf(config.getParameter(DOCUMENT_ID)));
             clientJupiter.setCallback(new ClientCallback.PlainClientCallback(editor));
             clientJupiter.connect();
         }

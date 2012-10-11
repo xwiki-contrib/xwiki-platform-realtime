@@ -15,13 +15,78 @@
   <name>XWiki Platform - Realtime - Editor - User Interface</name>
   <description>The XAR module to be imported for the real time editor application</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-realtime-editor-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <something>value</something>
+  </properties>
+
   <build>
     <plugins>
+
+       <!-- Copy in the GWT js and html files which comprise the GWT client side. -->
+       <plugin>
+         <artifactId>maven-dependency-plugin</artifactId>
+         <executions>
+           <execution>
+             <id>copy-gwt-js-files</id>
+             <goals>
+               <goal>unpack-dependencies</goal>
+             </goals>
+             <phase>generate-resources</phase>
+             <configuration>
+               <includeGroupIds>org.xwiki.platform</includeGroupIds>
+               <includeArtifactIds>xwiki-platform-realtime-editor-client</includeArtifactIds>
+               <excludeTransitive>false</excludeTransitive>
+               <includes>**/xre/*</includes>
+               <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
+             </configuration>
+           </execution>
+         </executions>
+       </plugin>
+
+       <!-- There arte 3 files output by whose names are unpredictable,
+         * Create properties called magicFile[012] -->
+       <plugin>
+         <groupId>org.codehaus.groovy.maven</groupId>
+         <artifactId>gmaven-plugin</artifactId>
+         <version>1.0</version>
+         <executions>
+           <execution>
+             <id>groovy-magic</id>
+             <phase>generate-resources</phase>
+             <goals>
+               <goal>execute</goal>
+             </goals>
+             <configuration>
+               <source>
+                 def xre = new File(project.build.directory, 'generated-resources/xre');
+                 def props = project.getProperties();
+                 int i = 0;
+                 for (File f : xre.listFiles()) {
+                     if (f.getName().length() > 16) {
+                         props.setProperty('magicFile' + i, f.getName()); 
+                         i++;
+                     }
+                 }
+               </source>
+             </configuration>
+           </execution>
+         </executions>
+       </plugin>
+
       <!-- Attach template overrides to the RtSkin page -->
       <plugin>
         <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
         <executions>
+
           <!-- getgroupmembers.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -34,6 +99,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- editactions.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -46,6 +112,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- contentmenu.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -58,6 +125,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- edit.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -70,6 +138,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- editmenu.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -82,6 +151,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- editrt.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -94,6 +164,7 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
           <!-- editwysiwygnew.vm -->
           <execution>
             <phase>process-resources</phase>
@@ -106,6 +177,85 @@
               <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
             </configuration>
           </execution>
+
+
+          <!--========================================================
+          ==               Attach GWT Js/Html Magic                 ==
+          =========================================================-->
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-xre.nocache.js</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/xre.nocache.js</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-hosted.html</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/hosted.html</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-clear.cache.gif</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/clear.cache.gif</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-magicFile0</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/${magicFile0}</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-magicFile1</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/${magicFile1}</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-magicFile2</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/generated-resources/xre/${magicFile2}</file>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+
         </executions>
       </plugin>
     </plugins>

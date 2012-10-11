@@ -47,7 +47,7 @@ public class ClientJupiterAlg extends JupiterAlg {
         super(document);
     }
 
-    public ClientJupiterAlg(Document document, int editingSessionId) {
+    public ClientJupiterAlg(Document document, long editingSessionId) {
         this(document);
         this.editingSessionId = editingSessionId;
     }
@@ -60,7 +60,7 @@ public class ClientJupiterAlg extends JupiterAlg {
         this.comService = comService;
     }
 
-	public void setCallback(ClientCallback callback) {
+    public void setCallback(ClientCallback callback) {
         this.callback = callback;
     }
 

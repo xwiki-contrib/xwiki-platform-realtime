@@ -99,7 +99,7 @@ public class TestUtils
     }
 
     public static void createServerPairs1(int nrClients,
-                                          final int esid,
+                                          final long esid,
                                           final CommunicationService commService,
                                           final int docType)
     {
@@ -199,7 +199,7 @@ public class TestUtils
      * @param operations the operations to build the messages from
      * @return the messages to be sent by the clients
      */
-    public static List<Message> createMessagesFromOperations(int esid, AbstractOperation... operations) {
+    public static List<Message> createMessagesFromOperations(long esid, AbstractOperation... operations) {
         List<Message> messages = new ArrayList<Message>();
         int i = 0;
 
@@ -211,7 +211,7 @@ public class TestUtils
         return messages;
     }
 
-    public static List<Message> createMessagesFromOperations(int esid, List<AbstractOperation> ops) {
+    public static List<Message> createMessagesFromOperations(long esid, List<AbstractOperation> ops) {
         return createMessagesFromOperations(esid, ops.toArray(new AbstractOperation[0]));
     }
 

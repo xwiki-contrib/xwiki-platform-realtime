@@ -2,7 +2,7 @@
 ###
 #if ("$!showactions" != '0')
   #if ($editor == 'rt' || $editor == 'wysiwyg')
-    $xwiki.jsfx.use('js/xwiki/rte/xre/actionButtonsRT.js', true)
+    $xwiki.jsx.use('XWiki.RtButtons')
   #else
     $xwiki.jsfx.use('js/xwiki/actionbuttons/actionButtons.js', true)
   #end

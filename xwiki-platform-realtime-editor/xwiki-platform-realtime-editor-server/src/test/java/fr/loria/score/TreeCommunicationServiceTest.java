@@ -57,7 +57,7 @@ public class TreeCommunicationServiceTest  {
     @Test
     public void test2Clients() throws Exception {
         int nrClients = 2;
-        int esid = 45;
+        long esid = 45;
 
         TestUtils.createServerPairs1(nrClients, esid, communicationService, 1);
         assertEquals(1, ClientServerCorrespondents.getInstance().getEditingSessions().size());
@@ -77,7 +77,7 @@ public class TreeCommunicationServiceTest  {
 
         TreeOperation op11 = new TreeNewParagraph(siteId2, 0);
         TreeOperation op12 = new TreeInsertText(siteId2, 0, t1, 'E');
-	    TreeOperation op13 = new TreeInsertText(siteId2, 1, t1, 'C');
+        TreeOperation op13 = new TreeInsertText(siteId2, 1, t1, 'C');
         TreeOperation op14 = new TreeInsertParagraph(siteId2, 1, t1, true);
         TreeOperation op15 = new TreeMergeParagraph(siteId2, 1, 1, 1);
 
@@ -96,7 +96,7 @@ public class TreeCommunicationServiceTest  {
     @Test
     public void test3Clients() throws Exception {
         int nrClients = 3;
-        int esid = 10;
+        long esid = 10;
 
         TestUtils.createServerPairs1(nrClients, esid, communicationService, 1);
 
@@ -157,7 +157,7 @@ public class TreeCommunicationServiceTest  {
     @Test
     public void testStyle() throws Exception {
         int nrClients = 2;
-        int esid = 5;
+        long esid = 5;
         TestUtils.createServerPairs1(nrClients, esid, communicationService, 1);
           assertEquals(1, ClientServerCorrespondents.getInstance().getEditingSessions().size());
         assertEquals(nrClients, ClientServerCorrespondents.getInstance().getEditingSessions().get(esid).size());
@@ -193,7 +193,7 @@ public class TreeCommunicationServiceTest  {
 
     @Test
 	public void testMove1() throws Exception {
-        int esid = 15;
+        long esid = 15;
         int nrClients = 2;
         TestUtils.createServerPairs1(nrClients, esid, communicationService, 1);
 

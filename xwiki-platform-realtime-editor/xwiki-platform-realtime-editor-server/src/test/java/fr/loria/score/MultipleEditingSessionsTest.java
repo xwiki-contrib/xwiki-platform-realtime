@@ -80,7 +80,7 @@ public class MultipleEditingSessionsTest {
         ServerJupiterAlg previous = null;
 
         // now check if servers in same editing session have the same data & state at quiescence
-        for (Map.Entry<Integer, List<Integer>> e : ClientServerCorrespondents.getInstance().getEditingSessions().entrySet()) {
+        for (Map.Entry<Long, List<Integer>> e : ClientServerCorrespondents.getInstance().getEditingSessions().entrySet()) {
             List<Integer> serverIds = e.getValue();
             List<ServerJupiterAlg> servers = new ArrayList<ServerJupiterAlg>();
             for (Integer serverId : serverIds) {

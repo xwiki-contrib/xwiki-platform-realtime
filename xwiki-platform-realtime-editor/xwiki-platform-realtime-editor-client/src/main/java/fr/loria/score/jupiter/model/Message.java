@@ -27,12 +27,12 @@ import java.io.Serializable;
 public class Message implements Serializable {
     private State state;
     private AbstractOperation operation;
-    private int editingSessionId; // TODO: not sure esid is necessary here.
+    private long editingSessionId; // TODO: not sure esid is necessary here.
 
     public Message() {
     }
     
-    public Message(State state, AbstractOperation operation, int sessionId) {
+    public Message(State state, AbstractOperation operation, long sessionId) {
         this(state, operation);
         this.editingSessionId = sessionId;
     }
@@ -66,11 +66,11 @@ public class Message implements Serializable {
         operation.setSiteId(siteId);
     }
 
-    public int getEditingSessionId() {
+    public long getEditingSessionId() {
         return editingSessionId;
     }
 
-    public void setEditingSessionId(int editingSessionId) {
+    public void setEditingSessionId(long editingSessionId) {
         this.editingSessionId = editingSessionId;
     }
 

@@ -130,7 +130,7 @@ $xwiki.ssfx.use('uicomponents/widgets/fullScreen.css', true)
 *#
 ##todo: !!
 #macro(rt_import $lazy)
-$xwiki.jsfx.use("js/xwiki/rte/xre/XWikiRt.js", {"forceSkinAction": true, "lazy": ${lazy}, 'defer': false})
+$xwiki.jsx.use("XWiki.RtJavascript", {"lazy": ${lazy}, 'defer': false})
 #end
 
 #**
