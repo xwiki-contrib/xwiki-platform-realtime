@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>XWiki</web>
+<name>RtButtons</name>
+<language></language>
+<defaultLanguage></defaultLanguage>
+<translation>0</translation>
+<parent>XWiki.RtSkin</parent>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1349821425000</creationDate>
+<date>1349821493000</date>
+<contentUpdateDate>1349821493000</contentUpdateDate>
+<version>1.1</version>
+<title></title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.RtButtons</name>
+<number>0</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>c9034bb8-1e17-4b96-b2fb-2664735e68dd</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>// ======================================
+// Form buttons: shortcuts, AJAX improvements and form validation
+// To be completed.
+
+// Make sure the XWiki 'namespace' exists.
+if (typeof(XWiki) == 'undefined') {
+  XWiki = new Object();
+}
+// Make sure the actionButtonsRT 'namespace' exists.
+if (typeof(XWiki.actionButtonsRT) == 'undefined') {
+  XWiki.actionButtonsRT = new Object();
+}
+
+XWiki.actionButtonsRT.EditActions = Class.create({
+  initialize : function() {
+    this.addListeners();
+    this.addShortcuts();
+    this.addValidators();
+  },
+  addListeners : function() {
+    $$('input[name=action_cancel]').each(function(item) {
+      item.observe('click', this.onCancel.bindAsEventListener(this));
+    }.bind(this));
+    $$('input[name=action_save]').each(function(item) {
+      item.observe('click', this.onSaveAndView.bindAsEventListener(this));
+    }.bind(this));
+    $$('input[name=action_saveandcontinue]').each(function(item) {
+      item.observe('click', this.onSaveAndContinue.bindAsEventListener(this));
+    }.bind(this));
+  },
+  addShortcuts : function() {
+    var shortcuts = {
+      'action_cancel' : "$msg.get('core.shortcuts.edit.cancel')",
+      // The following 2 are both "Back to edit" in the preview mode, depending on the used editor
+      'action_edit' : "$msg.get('core.shortcuts.edit.backtoedit')",
+      'action_inline' : "$msg.get('core.shortcuts.edit.backtoedit')",
+      'action_save' : "$msg.get('core.shortcuts.edit.saveandview')",
+      'action_propupdate' : "$msg.get('core.shortcuts.edit.saveandview')",
+      'action_saveandcontinue' : "$msg.get('core.shortcuts.edit.saveandcontinue')"
+    }
+    for (var key in shortcuts) {
+      var targetButtons = $$("input[name=" + key + "]");
+      if (targetButtons.size() &gt; 0) {
+        shortcut.add(shortcuts[key], function() {
+          this.click();
+        }.bind(targetButtons.first()), {'propagate' : false} );
+      }
+    }
+  },
+  validators : new Array(), 
+  addValidators : function() {
+    // Add live presence validation for inputs with classname 'required'.
+    var inputs = $(document.body).select("input.required");
+    for (var i = 0; i &lt; inputs.length; i++) {
+      var input = inputs[i];
+      var validator = new LiveValidation(input, { validMessage: "" });
+      validator.add(Validate.Presence, {
+        failureMessage: "$msg.get('core.validation.required.message')"
+      });
+      validator.validate();
+      this.validators.push(validator);
+    }
+  },
+  validateForm : function(form) {
+    for (var i = 0; i &lt; this.validators.length; i++) {
+      if (!this.validators[i].validate()) {
+        return false;
+      }
+    }
+    #if($xwiki.isEditCommentMandatory())
+      var commentField = form.comment
+      while (commentField.value == "") {
+        var response = prompt("${msg.get('core.comment.prompt')}");
+        if (response === null) {
+          return false;
+        }
+        commentField.value = response;
+      }
+    #elseif($xwiki.isEditCommentSuggested())
+      var commentField = form.comment
+      if (commentField.value == "") {
+        var response = prompt("${msg.get('core.comment.prompt')}");
+        if (response === null) {
+          return false;
+        }
+        commentField.value = response;
+      }
+    #end
+    return true;
+  },
+  onCancel : function(event) {
+    event.stop();
+    if (typeof window.onCancelHook == 'function') {
+        window.onCancelHook();
+    }
+    // Notify others we are going to cancel
+    this.notify(event, "cancel");
+
+    var location = event.element().form.action;
+    if (typeof location != "string") {
+       location = event.element().form.attributes.getNamedItem("action");
+       if (location) {
+         location = location.nodeValue;
+       } else {
+         location = window.self.location.href;
+       }
+    }
+    var parts = location.split('#', 2);
+    var fragmentId = (parts.length == 2) ? parts[1] : '';
+    location = parts[0];
+    if (location.indexOf('?') == -1) {
+      location += '?';
+    }
+    window.location = location + '&amp;action_cancel=true' + fragmentId;
+  },
+  onSaveAndView : function(event) {
+    if (!this.validateForm(event.element().form)) {
+      event.stop();
+    } else {
+        if (typeof window.onSaveAndViewHook == 'function') {
+            window.onSaveAndViewHook();
+        }
+        this.notify(event, "save", {"continue" : false});
+    }
+  },
+  onSaveAndContinue : function(event) {
+    if (!this.validateForm(event.element().form)) {
+      event.stop();
+    } else {
+        if (typeof window.onSaveAndContinueHook == 'function') {
+            window.onSaveAndContinueHook();
+        }
+      this.notify(event, "save", {"continue" : true});
+    }
+  },
+  notify : function(event, action, params) {
+    document.fire("xwiki:actions:" + action, Object.extend({originalEvent : event, form: event.element().form}, params || { }));
+    // In IE, events can't be stopped from another event's handler, so we must call stop() again here
+    if (event.stopped) {
+      event.stop();
+    }
+  }
+});
+
+// ======================================
+// Save and continue button: Ajax improvements
+XWiki.actionButtonsRT.AjaxSaveAndContinue = Class.create({
+  initialize : function() {
+    this.createMessages();
+    this.addListeners();
+  },
+  createMessages : function() {
+    this.savingBox = new XWiki.widgets.Notification("Saving...", "inprogress", {inactive: true});
+    this.savedBox = new XWiki.widgets.Notification("Saved", "done", {inactive: true});
+    this.failedBox = new XWiki.widgets.Notification("Failed to save the document. Reason: &lt;span id=\"ajaxRequestFailureReason\"&gt;&lt;/span&gt;", "error", {inactive: true});
+  },
+  addListeners : function() {
+    document.observe("xwiki:actions:save", this.onSave.bindAsEventListener(this));
+  },
+  onSave : function(event) {
+    // Don't continue if the event has been stopped already
+    if (event.stopped) {
+      return;
+    }
+    if (window.editor != undefined || window.editor != null) {
+        jQuery("input[name=content]").val(window.editor.getContent());
+    }
+
+    if (event.memo["continue"]) {
+      if (typeof (event.memo.originalEvent) != 'undefined') {
+        event.memo.originalEvent.stop();
+      }
+      this.form = $(event.memo.form);
+      this.savedBox.hide();
+      this.failedBox.hide();
+      this.savingBox.show();
+      var formData = new Hash(this.form.serialize({hash: true, submit: 'action_saveandcontinue'}));
+      formData.set('minorEdit', '1');
+      if (!Prototype.Browser.Opera) {
+        // Opera can't handle properly 204 responses.
+        formData.set('ajax', 'true');
+      }
+      new Ajax.Request(this.form.action, {
+        method : 'post',
+        parameters : formData.toQueryString(),
+        onSuccess : this.onSuccess.bindAsEventListener(this),
+        on1223 : this.on1223.bindAsEventListener(this),
+        on0 : this.on0.bindAsEventListener(this),
+        onFailure : this.onFailure.bind(this)
+      });
+    }
+  },
+  // IE converts 204 status code into 1223...
+  on1223 : function(response) {
+    response.request.options.onSuccess(response);
+  },
+  // 0 is returned for network failures, except on IE where a strange large number (12031) is returned.
+  on0 : function(response) {
+    response.request.options.onFailure(response);
+  },
+  onSuccess : function(response) {
+    // If there was a 'template' field in the form, disable it to avoid 'This document already exists' errors.
+    if (this.form &amp;&amp; this.form.template) {
+      this.form.template.disabled = true;
+      this.form.template.value = "";
+    }
+    this.savingBox.replace(this.savedBox);
+    // Announce that the document has been saved
+    // TODO: We should send the new version as a memo field
+    document.fire("xwiki:document:saved");
+  },
+  onFailure : function(response) {
+    this.savingBox.replace(this.failedBox);
+    if (response.statusText == '' /* No response */ || response.status == 12031 /* In IE */) {
+      $('ajaxRequestFailureReason').update('Server not responding');
+    } else {
+      $('ajaxRequestFailureReason').update(response.statusText);
+    }
+    // Announce that a document save attempt has failed
+    document.fire("xwiki:document:saveFailed", {'response' : response});
+  }
+});
+document.observe('dom:loaded', function() {
+  new XWiki.actionButtonsRT.EditActions();
+  // In preview mode, the &amp;continue part of the save&amp;continue should lead back to the edit action.
+  if (!$(document.body).hasClassName("previewbody")) {
+    new XWiki.actionButtonsRT.AjaxSaveAndContinue();
+  }
+});</code>
+</property>
+<property>
+<name>Realtime Editor Buttons Javascript</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>onDemand</use>
+</property>
+</object>
+<content>{{info}}This document contains a Javascript Skin Extension which is used by the Realtime Editor.{{/info}}</content></xwikidoc>
