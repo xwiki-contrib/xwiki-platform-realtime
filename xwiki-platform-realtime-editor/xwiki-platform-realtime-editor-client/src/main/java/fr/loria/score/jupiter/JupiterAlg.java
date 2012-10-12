@@ -38,7 +38,7 @@ import fr.loria.score.jupiter.transform.TransformationFactory;
  * <b>Note: it only requires that TP1 is satisfied by transformation functions.</b>
  */
 public abstract class JupiterAlg {
-    private static final Logger logger = Factory.getLogger(JupiterAlg.class.getName());
+    private static final Logger logger = Logger.getLogger(JupiterAlg.class.getName());
 
     // Identifies a client to the server.
     // If 2 operations are simultaneously received by the server, it will sequentially apply them in an ascending order
