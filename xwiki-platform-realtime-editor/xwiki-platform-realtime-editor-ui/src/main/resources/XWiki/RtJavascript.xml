@@ -293,6 +293,13 @@ var Rt =
      */
     hookGwtOnLoad: function() {
         var iframe = document.getElementById('${moduleName}');
+
+        ## Need to get a URL for calling the GWT RPC call and pass it to the RT editor.
+        iframe.contentWindow.getModuleBaseURL = function() {
+            ## This is not very nice looking but it's not very fragile as the URL scheme is higly stable.
+            return "$xwiki.getURL('Main.WebHome', 'gwt').replaceAll('/bin/gwt/Main/WebHome', '/gwt/')";
+        };
+
         var gwtOnLoad = iframe.contentWindow.gwtOnLoad;
         iframe.contentWindow.gwtOnLoad = function(errFn, modName, modBase) {
             gwtOnLoad(function() {
