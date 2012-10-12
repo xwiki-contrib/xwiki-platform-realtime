@@ -22,6 +22,8 @@ package fr.loria.score.jupiter.model;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Represents a document on which OT algorithms work: a plain string, a tree etc.<br/>
  * On different algorithms, the document may contain more information than the visible text such as metadata
@@ -30,7 +32,7 @@ import java.io.Serializable;
  * @author sebastien.parisot
  * @author Bogdan.Flueras@inria.fr
  */
-public interface Document extends Serializable {
+public interface Document extends Serializable, IsSerializable {
     /**
      * @return the view of the document, what it is expected to be viewable by user according to the used algorithm
      */

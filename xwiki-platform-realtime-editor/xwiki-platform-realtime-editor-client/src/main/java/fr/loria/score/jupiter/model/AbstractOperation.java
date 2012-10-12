@@ -21,12 +21,14 @@ package fr.loria.score.jupiter.model;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Represents a generic operation to be applied to a Document.
  * @author Bogdan.Flueras@inria.fr
  */
 
-public abstract class AbstractOperation implements Serializable {
+public abstract class AbstractOperation implements Serializable, IsSerializable {
     public static transient final String THE_POSITION_IS_NEGATIVE = "The position is negative: ";
 
     /**

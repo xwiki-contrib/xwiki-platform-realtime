@@ -21,6 +21,8 @@ package fr.loria.score.jupiter.model;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Models the current state of the client or the server. This is an indicator of how many messages were locally generated and how many were received.
  * Basically it is a vector clock of two entries.
@@ -29,7 +31,7 @@ import java.io.Serializable;
  * <li>receivedMsgs - the nr of received and processed messages by the owner entity - could be client or server.</li>
  * </ul>
  */
-public class State implements Serializable {
+public class State implements Serializable, IsSerializable {
     private int generatedMsgs = 0;
     private int receivedMsgs = 0;
 

@@ -19,6 +19,8 @@
  */
 package fr.loria.score.client;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import fr.loria.score.jupiter.model.Document;
 import fr.loria.score.jupiter.plain.PlainDocument;
 
@@ -28,7 +30,7 @@ import java.io.Serializable;
  * DTO class for ClientJupiterAlg
  * @author Bogdan.Flueras@inria.fr
  */
-public class ClientDTO implements Serializable {
+public class ClientDTO implements Serializable, IsSerializable {
     private int siteId;
     private long esid;
     private Document document;

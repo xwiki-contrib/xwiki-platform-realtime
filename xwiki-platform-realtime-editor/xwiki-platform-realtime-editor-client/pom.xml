@@ -19,7 +19,7 @@
         interfaces have to be annotated as component roles. -->
       <groupId>org.xwiki.commons</groupId>
       <artifactId>xwiki-commons-component-api</artifactId>
-      <version>${platform.version}</version>
+      <version>${commons.version}</version>
     </dependency>
 
     <dependency>

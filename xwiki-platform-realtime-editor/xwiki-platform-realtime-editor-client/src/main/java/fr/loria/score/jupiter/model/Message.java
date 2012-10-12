@@ -21,10 +21,12 @@ package fr.loria.score.jupiter.model;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * Message is the way in which client and server communicate
  */
-public class Message implements Serializable {
+public class Message implements Serializable, IsSerializable {
     private State state;
     private AbstractOperation operation;
     private long editingSessionId; // TODO: not sure esid is necessary here.

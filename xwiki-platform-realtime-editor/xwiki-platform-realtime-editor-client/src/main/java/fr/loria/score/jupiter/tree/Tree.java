@@ -22,7 +22,9 @@ package fr.loria.score.jupiter.tree;
 import java.io.Serializable;
 import java.util.*;
 
-public class Tree implements Serializable {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Tree implements Serializable, IsSerializable {
     /**
      * Node name: for Text nodes is "#text", for Elements is tagName
      */
