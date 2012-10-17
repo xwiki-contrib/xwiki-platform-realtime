@@ -16,16 +16,33 @@
   <description>The XAR module to be imported for the real time editor application</description>
 
   <dependencies>
+
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-realtime-editor-client</artifactId>
       <version>${project.version}</version>
+      <!-- This is only needed to pull in the javascript attachments -->
+      <scope>provided</scope>
     </dependency>
-  </dependencies>
 
-  <properties>
-    <something>value</something>
-  </properties>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-realtime-editor-client</artifactId>
+      <version>${project.version}</version>
+      <classifier>shared</classifier>
+      <!-- Needed for installing as an extension. -->
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-realtime-editor-server</artifactId>
+      <version>${project.version}</version>
+      <!-- Needed for installing as an extension. -->
+      <scope>runtime</scope>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>

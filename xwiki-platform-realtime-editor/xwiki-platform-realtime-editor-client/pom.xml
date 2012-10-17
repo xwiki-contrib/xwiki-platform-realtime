@@ -49,7 +49,7 @@
 
   <properties>
     <gwt.style>PRETTY</gwt.style>
-    <gwt.output.directory>${project.build.directory}/${project.build.finalName}/resources/js/xwiki/rte</gwt.output.directory>
+    <gwt.output.directory>${project.build.directory}/gwt-output/gwt</gwt.output.directory>
     <xre.directory>${gwt.output.directory}/xre</xre.directory>
     <xre.module>fr.loria.score.Rt</xre.module>
   </properties>
@@ -97,31 +97,51 @@
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <configuration>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <resources>
-                  <resource>
-                      <directory>${project.build.directory}/generated-sources/gwt</directory>
-                       <includes>
-                            <include>**/*.java </include>
-                      </includes>
-                  </resource>
-                  <resource>
-                      <directory>${gwt.output.directory}</directory>
-                       <includes>
-                            <include>**/*</include>
-                      </includes>
-                  </resource>
-              </resources>
-          </configuration>
           <executions>
               <execution>
-                  <id>copy-resources</id>
+                  <id>copy-java-files-and-gwt-js-files-into-client-jar</id>
+                  <configuration>
+                      <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                      <resources>
+                          <resource>
+                              <directory>${project.build.directory}/generated-sources/gwt</directory>
+                               <includes>
+                                    <include>**/*.java </include>
+                              </includes>
+                          </resource>
+                          <resource>
+                              <directory>${gwt.output.directory}</directory>
+                               <includes>
+                                    <include>**/*</include>
+                              </includes>
+                          </resource>
+                      </resources>
+                  </configuration>
                   <goals>
                       <goal>copy-resources</goal>
                   </goals>
                   <phase>prepare-package</phase>
               </execution>
+
+              <execution>
+                  <id>copy-gwt.rpc-file-into-resources</id>
+                  <configuration>
+                      <outputDirectory>${project.build.outputDirectory}/META-INF/resources/gwt</outputDirectory>
+                      <resources>
+                          <resource>
+                            <directory>${xre.directory}</directory>
+                              <includes>
+                                   <include>*.gwt.rpc</include>
+                              </includes>
+                          </resource>
+                      </resources>
+                  </configuration>
+                  <goals>
+                      <goal>copy-resources</goal>
+                  </goals>
+                  <phase>prepare-package</phase>
+              </execution>
+
           </executions>
       </plugin>
 
@@ -138,11 +158,13 @@
                 <!-- We need to share only the classes that are used on the 
                   server (e.g. GWT-RPC service interfaces and GWT-RPC parameter types) -->
                 <include>**/*.class</include>
+                <include>**/*.gwt.rpc</include>
               </includes>
             </configuration>
             <goals>
               <goal>jar</goal>
             </goals>
+            <phase>package</phase>
           </execution>
         </executions>
       </plugin>
