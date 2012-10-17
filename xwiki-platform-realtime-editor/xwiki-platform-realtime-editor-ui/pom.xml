@@ -81,107 +81,13 @@
          </executions>
        </plugin>
 
-      <!-- Attach template overrides to the RtSkin page -->
+      <!--========================================================
+      ==               Attach GWT Js/Html Magic                 ==
+      =========================================================-->
       <plugin>
         <groupId>org.xwiki.platform</groupId>
         <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
         <executions>
-
-          <!-- getgroupmembers.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-getgroupmembers.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/getgroupmembers.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- editactions.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-editactions.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/editactions.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- contentmenu.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-contentmenu.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/contentmenu.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- edit.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-edit.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/edit.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- editmenu.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-editmenu.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/editmenu.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- editrt.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-editrt.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/editrt.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-          <!-- editwysiwygnew.vm -->
-          <execution>
-            <phase>process-resources</phase>
-            <id>attach-editwysiwygnew.vm-xar</id>
-            <goals>
-              <goal>attach</goal>
-            </goals>
-            <configuration>
-              <file>${basedir}/src/main/template-overrides/editwysiwygnew.vm</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtSkin.xml</sourceDocument>
-            </configuration>
-          </execution>
-
-
-          <!--========================================================
-          ==               Attach GWT Js/Html Magic                 ==
-          =========================================================-->
 
           <execution>
             <phase>process-resources</phase>
@@ -191,7 +97,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/xre.nocache.js</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
 
@@ -203,7 +109,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/hosted.html</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
 
@@ -215,7 +121,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/clear.cache.gif</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
 
@@ -227,7 +133,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/${magicFile0}</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
 
@@ -239,7 +145,7 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/${magicFile1}</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
 
@@ -251,10 +157,9 @@
             </goals>
             <configuration>
               <file>${project.build.directory}/generated-resources/xre/${magicFile2}</file>
-              <sourceDocument>${project.build.outputDirectory}/XWiki/RtJavascript.xml</sourceDocument>
+              <sourceDocument>${project.build.outputDirectory}/XWiki/RealtimeAttachments.xml</sourceDocument>
             </configuration>
           </execution>
-
 
         </executions>
       </plugin>

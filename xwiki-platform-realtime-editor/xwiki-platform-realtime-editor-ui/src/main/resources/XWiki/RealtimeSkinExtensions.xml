@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwikidoc>
 <web>XWiki</web>
-<name>RtJavascript</name>
+<name>RealtimeSkinExtensions</name>
 <language></language>
 <defaultLanguage></defaultLanguage>
 <translation>0</translation>
-<parent>XWiki.RtSkin</parent>
+<parent>XWiki.WebHome</parent>
 <creator>xwiki:XWiki.Admin</creator>
 <author>xwiki:XWiki.Admin</author>
 <customClass></customClass>
 <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-<creationDate>1349821217000</creationDate>
-<date>1349821410000</date>
-<contentUpdateDate>1349821410000</contentUpdateDate>
+<creationDate>1350442625000</creationDate>
+<date>1350442738000</date>
+<contentUpdateDate>1350442738000</contentUpdateDate>
 <version>1.1</version>
 <title></title>
 <template></template>
@@ -94,10 +94,10 @@
 <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
 </use>
 </class>
-<name>XWiki.RtJavascript</name>
+<name>XWiki.RealtimeSkinExtensions</name>
 <number>0</number>
 <className>XWiki.JavaScriptExtension</className>
-<guid>b47260c7-3c57-484f-b97a-ee2a5f08052b</guid>
+<guid>09c7a17c-fb8a-402b-99cf-30e2c9e82211</guid>
 <property>
 <cache>long</cache>
 </property>
@@ -146,7 +146,7 @@ var Rt =
         // Create the script tag to be used for importing the GWT script loader.
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = '$xwiki.getSkinFile("js/xwiki/rte/${moduleName}/${moduleName}.nocache.js")';
+        script.src = '$xwiki.getDocument("XWiki.RealtimeAttachments").getAttachmentURL("xre.nocache.js")';
 
         // The default GWT script loader calls document.write() twice which prevents us from loading the WYSIWYG code
         // on demand, after the document has been loaded. To overcome this we have to overwrite the document.write()
@@ -297,7 +297,7 @@ var Rt =
         ## Need to get a URL for calling the GWT RPC call and pass it to the RT editor.
         iframe.contentWindow.getModuleBaseURL = function() {
             ## This is not very nice looking but it's not very fragile as the URL scheme is higly stable.
-            return "$xwiki.getURL('Main.WebHome', 'gwt').replaceAll('/bin/gwt/Main/WebHome', '/gwt/')";
+            return "$doc.getExternalURL('gwt').replaceAll('/bin/gwt/.*', '/gwt/')";
         };
 
         var gwtOnLoad = iframe.contentWindow.gwtOnLoad;
@@ -340,7 +340,265 @@ var Rt =
 <parse>1</parse>
 </property>
 <property>
-<use>onDemand</use>
+<use>always</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.JavaScriptExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.RtSkinExtensions</name>
+<number>1</number>
+<className>XWiki.JavaScriptExtension</className>
+<guid>8b0ceb62-c73b-4b1b-bbfb-e9be114b9a70</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>(function(){
+var msgRealTime = 'RealTime Wiki';
+
+var addRealtimeMenuEntry = function() {
+    var wikiLink = $('tmEditWiki');
+    var wikiSpan = wikiLink.parentNode;
+    var wikiHref = wikiLink.getAttribute("href") + "#RealTime";
+    var rt = new Element("span", {"class":"submenuitem"});
+    var rtLink = new Element("a", {
+        "href": wikiHref,
+        "id": "tmEditRt",
+        "class": "tmEditRt"
+    });
+    rtLink.update(msgRealTime);
+    rt.appendChild(rtLink);
+
+    if (XWiki.editor == 'wiki') {
+        if (window.location.hash == '#RealTime') {
+            XWiki.editor = 'realtime-wiki';
+            var link = $("tmCurrentEditor").down("a");
+            link.setAttribute("href", wikiHref);
+            link.update("&lt;strong&gt; " + msgRealTime + "&lt;/strong&gt;");
+        }
+    }
+    wikiSpan.insert({'after': rt});
+};
+
+var isRealtimeMode = function() {
+    return (window.location.hash == '#RealTime');
+};
+
+var copyContentToField = function() {
+    $("contentToSave").setAttribute("value", window.editor.getContent());
+};
+
+var startRtWiki = function() {
+    Rt.onModuleLoad(function() {
+        var docId = JSON.stringify([XWiki.currentWiki, XWiki.currentSpace, XWiki.currentPage, XWiki.docvariant]);
+        new RtApi({documentId: docId, textAreaId: 'content', toReplaceId: 'xwikieditcontent' });
+
+        // Remove the keyboard shortcuts because they will be hit while typing.
+        for (var sc in shortcut.all_shortcuts) {
+            shortcut.remove(sc);
+        }
+    });
+
+    // Remove preview button and autosave control.
+    $$("[name=action_preview]")[0].remove();
+    $("autosaveControl").remove();
+
+    var contentField = new Element("input", {
+        "id": "contentToSave",
+        "name": "content",
+        "type": "hidden",
+        "value": $("content").value
+    });
+    $$("[name=xredirect]")[0].insert({"after": contentField});
+
+    // Use mouseover so the content is updated before the button can be pressed.
+    Event.observe($$("[name='action_saveandcontinue']")[0], "mouseover", copyContentToField);
+    Event.observe($$("[name='action_save']")[0], "mouseover", copyContentToField);
+
+    Rt.load();
+};
+
+document.observe("xwiki:dom:loaded", function() {
+    addRealtimeMenuEntry();
+    if (isRealtimeMode()) {
+        startRtWiki();
+    }
+});
+
+})();</code>
+</property>
+<property>
+<name>Realtime Editor Injector</name>
+</property>
+<property>
+<parse>0</parse>
+</property>
+<property>
+<use>always</use>
+</property>
+</object>
+<object>
+<class>
+<name>XWiki.StyleSheetExtension</name>
+<customClass></customClass>
+<customMapping></customMapping>
+<defaultViewSheet></defaultViewSheet>
+<defaultEditSheet></defaultEditSheet>
+<defaultWeb></defaultWeb>
+<nameField></nameField>
+<validationScript></validationScript>
+<cache>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>cache</name>
+<number>5</number>
+<prettyName>Caching policy</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>long|short|default|forbid</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</cache>
+<code>
+<disabled>0</disabled>
+<name>code</name>
+<number>2</number>
+<prettyName>Code</prettyName>
+<rows>20</rows>
+<size>50</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+</code>
+<name>
+<disabled>0</disabled>
+<name>name</name>
+<number>1</number>
+<prettyName>Name</prettyName>
+<size>30</size>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+</name>
+<parse>
+<disabled>0</disabled>
+<displayFormType>select</displayFormType>
+<displayType>yesno</displayType>
+<name>parse</name>
+<number>4</number>
+<prettyName>Parse content</prettyName>
+<unmodifiable>0</unmodifiable>
+<classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+</parse>
+<use>
+<cache>0</cache>
+<disabled>0</disabled>
+<displayType>select</displayType>
+<multiSelect>0</multiSelect>
+<name>use</name>
+<number>3</number>
+<prettyName>Use this extension</prettyName>
+<relationalStorage>0</relationalStorage>
+<separator> </separator>
+<separators> ,|</separators>
+<size>1</size>
+<unmodifiable>0</unmodifiable>
+<values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+<classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+</use>
+</class>
+<name>XWiki.RtSkinExtensions</name>
+<number>0</number>
+<className>XWiki.StyleSheetExtension</className>
+<guid>4ceb0eed-7361-481f-9806-b3473555e294</guid>
+<property>
+<cache>long</cache>
+</property>
+<property>
+<code>.actionmenu .tmEditRt {
+  background-image: url("$xwiki.getSkinFile('icons/silk/page_white_gear.gif')");
+}</code>
+</property>
+<property>
+<name>Realtime Editor CSS</name>
+</property>
+<property>
+<parse>1</parse>
+</property>
+<property>
+<use>always</use>
 </property>
 </object>
 <content>{{info}}This document contains a Javascript Skin Extension which is used by the Realtime Editor.{{/info}}</content></xwikidoc>

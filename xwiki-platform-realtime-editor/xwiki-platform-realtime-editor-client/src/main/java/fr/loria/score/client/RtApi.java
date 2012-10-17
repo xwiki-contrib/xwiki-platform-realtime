@@ -64,9 +64,13 @@ public class RtApi {
         Config config = new DefaultConfig(jsConfig);
 
         // Get the text area element
-        Element htmlTextAreaElement = DOM.getElementById(config.getParameter("hookId"));
+        Element htmlTextAreaElement = DOM.getElementById(config.getParameter("textAreaId"));
         if (htmlTextAreaElement == null) {
             return;
+        }
+        Element toReplace = DOM.getElementById(config.getParameter("toReplaceId"));
+        if (toReplace == null) {
+            toReplace = htmlTextAreaElement;
         }
 
         if (htmlTextAreaElement.getTagName().equalsIgnoreCase("textarea")) {
@@ -82,9 +86,9 @@ public class RtApi {
             canvasEl.setPropertyInt("width", width);
             canvasEl.setPropertyInt("height", height);
 
-            com.google.gwt.dom.client.Element parentElem = htmlTextAreaElement.getParentElement();
+            com.google.gwt.dom.client.Element parentElem = toReplace.getParentElement();
             parentElem.insertFirst(canvasEl);
-            parentElem.removeChild(htmlTextAreaElement);
+            parentElem.removeChild(toReplace);
 
             injectJSFilesForRTEditor(parentElem);
 
@@ -93,7 +97,7 @@ public class RtApi {
 
             clientJupiter.setCommunicationService(comService);
             clientJupiter.setDocument(new PlainDocument(tArea.getText()));
-            clientJupiter.setEditingSessionId(Long.valueOf(config.getParameter(DOCUMENT_ID)));
+            clientJupiter.setEditingSessionId(config.getParameter(DOCUMENT_ID).hashCode());
             clientJupiter.setCallback(new ClientCallback.PlainClientCallback(editor));
             clientJupiter.connect();
         }

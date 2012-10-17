@@ -14,28 +14,11 @@
   <name>XWiki Platform - Realtime - Editor - Parent POM</name>
   <description>Real time collaborative plain wiki syntax editor.</description>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit-dep</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-servlet</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-  </dependencies>
-
   <modules>
     <module>xwiki-platform-realtime-editor-client</module>
     <module>xwiki-platform-realtime-editor-server</module>
     <module>xwiki-platform-realtime-editor-ui</module>
+    <module>xwiki-platform-realtime-editor-all</module>
   </modules>
 
   <repositories>
