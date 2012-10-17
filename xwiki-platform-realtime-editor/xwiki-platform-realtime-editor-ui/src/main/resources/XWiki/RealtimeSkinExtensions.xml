@@ -102,9 +102,7 @@
 <cache>long</cache>
 </property>
 <property>
-<code>##The module name must match the value of the rename-to attribute from Rt.gwt.xml
-#set($moduleName = "xre")
-
+<code>
 /**
  * XWiki's custom RT editor controller.
  * Usage: \$xwiki.jsfx.use("path/to/XWikiRt.js", {'forceSkinAction': true, 'lazy': false})
@@ -136,7 +134,7 @@ var Rt =
     load : function() {
         // Test if the code has been already loaded.
         // GWT loads the RT code in an in-line frame with the 'com.xpn.xwiki.wysiwyg.Wysiwyg' id.
-        if (document.getElementById('${moduleName}') || this.readyState != 0) {
+        if (document.getElementById('xre') || this.readyState != 0) {
             return;
         }
 
@@ -268,17 +266,17 @@ var Rt =
      * Try to wrap onScriptLoad in order to be notified when the WYSIWYG script is loaded.
      */
     maybeHookOnScriptLoad: function() {
-        if (${moduleName} &amp;&amp; ${moduleName}.onScriptLoad)
+        if (xre &amp;&amp; xre.onScriptLoad)
         {
-            var onScriptLoad = ${moduleName}.onScriptLoad;
-            ${moduleName}.onScriptLoad = function() {
+            var onScriptLoad = xre.onScriptLoad;
+            xre.onScriptLoad = function() {
                 Rt.hookGwtOnLoad();
                 onScriptLoad();
 
                 // Restore the default onScriptLoad function.
-                if (${moduleName} &amp;&amp; ${moduleName}.onScriptLoad)
+                if (xre &amp;&amp; xre.onScriptLoad)
                 {
-                    ${moduleName}.onScriptLoad = onScriptLoad;
+                    xre.onScriptLoad = onScriptLoad;
                 }
                 onScriptLoad = undefined;
             }
@@ -292,7 +290,7 @@ var Rt =
      * Wrap gwtOnLoad in order to be notified when the WYSIWYG module is loaded.
      */
     hookGwtOnLoad: function() {
-        var iframe = document.getElementById('${moduleName}');
+        var iframe = document.getElementById('xre');
 
         ## Need to get a URL for calling the GWT RPC call and pass it to the RT editor.
         iframe.contentWindow.getModuleBaseURL = function() {
@@ -328,10 +326,7 @@ var Rt =
         return this.instances[hookId];
     }
 };
-
-#if ("$!request.lazy" != "true")
-    Rt.load();
-#end</code>
+</code>
 </property>
 <property>
 <name>Realtime Editor Javascript</name>
