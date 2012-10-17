@@ -81,11 +81,9 @@ public class ClientJupiterAlg extends JupiterAlg {
                 logger.fine("Successfully connected to server. DTO is: " + clientDTO);
                 siteId = clientDTO.getSiteId();
 
-                boolean updateUI = !document.getContent().equals(clientDTO.getDocument().getContent());
-
                 document = clientDTO.getDocument();
 
-                callback.onConnected(clientDTO, document, updateUI); // hmm.. dto should be enough
+                callback.onConnected(clientDTO, document, true); // hmm.. dto should be enough
 
                 serverPushForClient();
             }
