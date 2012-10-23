@@ -424,7 +424,7 @@ var msgRealTime = 'RealTime Wiki';
 var addRealtimeMenuEntry = function() {
     var wikiLink = $('tmEditWiki');
     var wikiSpan = wikiLink.parentNode;
-    var wikiHref = wikiLink.getAttribute("href") + "#RealTime";
+    var wikiHref = wikiLink.getAttribute("href") + "&amp;force=1#RealTime";
     var rt = new Element("span", {"class":"submenuitem"});
     var rtLink = new Element("a", {
         "href": wikiHref,
