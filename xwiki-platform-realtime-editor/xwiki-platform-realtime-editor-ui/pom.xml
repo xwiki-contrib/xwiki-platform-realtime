@@ -4,7 +4,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.platform</groupId>
+    <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-realtime-editor</artifactId>
     <version>4.3-SNAPSHOT</version>
   </parent>
@@ -18,7 +18,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>xwiki-platform-realtime-editor-client</artifactId>
       <version>${project.version}</version>
       <!-- This is only needed to pull in the javascript attachments -->
@@ -26,7 +26,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>xwiki-platform-realtime-editor-client</artifactId>
       <version>${project.version}</version>
       <classifier>shared</classifier>
@@ -35,7 +35,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>xwiki-platform-realtime-editor-server</artifactId>
       <version>${project.version}</version>
       <!-- Needed for installing as an extension. -->
@@ -58,7 +58,7 @@
              </goals>
              <phase>generate-resources</phase>
              <configuration>
-               <includeGroupIds>org.xwiki.platform</includeGroupIds>
+               <includeGroupIds>${project.groupId}</includeGroupIds>
                <includeArtifactIds>xwiki-platform-realtime-editor-client</includeArtifactIds>
                <excludeTransitive>false</excludeTransitive>
                <includes>**/xre/*</includes>
